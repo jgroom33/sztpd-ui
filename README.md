@@ -1,24 +1,17 @@
 # sztpd-ui
 
-## Project setup
-```
-yarn install
-```
+## Dependencies
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+* [SZTPD server](https://watsen.net/docs/)
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## Project development setup
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. Install dependencies
+    ```bash
+    yarn install
+    ```
+2. Change the IP address in [config](vue.config.js)
+3. Run
+    ```bash
+    yarn serve
+    ```

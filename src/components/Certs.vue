@@ -305,28 +305,26 @@ export default {
     },
     async create_keys() {
       let body = {
-        "wn-sztpd-1:asymmetric-keys": {
-          "asymmetric-key": [
-            {
-              name: this.key_name,
-              "public-key": this.public_key,
-              "cleartext-private-key": this.private_key,
-              "public-key-format":
-                "ietf-crypto-types:subject-public-key-info-format",
-              "private-key-format": "ietf-crypto-types:ec-private-key-format",
-              certificates: {
-                certificate: [
-                  {
-                    name: `${this.key_name}-cert`,
-                    "cert-data": this.key_cert_data,
-                  },
-                ],
-              },
+        "wn-sztpd-1:asymmetric-key": [
+          {
+            name: this.key_name,
+            "public-key": this.public_key,
+            "cleartext-private-key": this.private_key,
+            "public-key-format":
+              "ietf-crypto-types:subject-public-key-info-format",
+            "private-key-format": "ietf-crypto-types:ec-private-key-format",
+            certificates: {
+              certificate: [
+                {
+                  name: `${this.key_name}-cert`,
+                  "cert-data": this.key_cert_data,
+                },
+              ],
             },
-          ],
-        },
+          },
+        ],
       };
-      let path = `${this.host}/restconf/ds/ietf-datastores:running/wn-sztpd-1:keystore`;
+      let path = `${this.host}/restconf/ds/ietf-datastores:running/wn-sztpd-1:keystore/asymmetric-keys`;
 
       let response = await fetch(path, {
         method: "POST",
@@ -352,21 +350,19 @@ export default {
       let body;
       let path;
       body = {
-        "wn-sztpd-1:certificate-bags": {
-          "certificate-bag": [
-            {
-              name: this.name,
-              certificate: [
-                {
-                  name: this.name,
-                  "cert-data": this.cert_data,
-                },
-              ],
-            },
-          ],
-        },
+        "wn-sztpd-1:certificate-bag": [
+          {
+            name: this.name,
+            certificate: [
+              {
+                name: this.name,
+                "cert-data": this.cert_data,
+              },
+            ],
+          },
+        ],
       };
-      path = `${this.host}/restconf/ds/ietf-datastores:running/wn-sztpd-1:truststore`;
+      path = `${this.host}/restconf/ds/ietf-datastores:running/wn-sztpd-1:truststore/certificate-bags`;
 
       let response = await fetch(path, {
         method: "POST",

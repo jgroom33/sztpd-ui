@@ -1,26 +1,27 @@
 <template>
   <div id="app">
+    <Toast />
     <topnavbar />
     <router-view />
   </div>
 </template>
 
 <script>
-import topnavbar from '@/components/Topnavbar.vue'
+import topnavbar from "@/components/Topnavbar.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    topnavbar
+    topnavbar,
   },
   beforeCreate() {
-    import('primevue/resources/themes/bootstrap4-light-blue/theme.css')
+    import("primevue/resources/themes/bootstrap4-light-blue/theme.css");
   },
   created() {
-    this.$store.commit('setUsername', "admin")
-    this.$store.commit('setPassword', "adminpw")
-  }
-}
+    this.$store.commit("setUsername", "admin");
+    this.$store.commit("setPassword", "adminpw!");
+  },
+};
 </script>
 
 <style>

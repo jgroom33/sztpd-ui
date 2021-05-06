@@ -189,8 +189,20 @@ export default {
       "Basic " +
       btoa(this.$store.state.username + ":" + this.$store.state.password);
     this.getTransport();
+    this.isReady();
   },
   methods: {
+    async isReady() {
+      await this.getKeyStore();
+      await this.getTrustStore();
+      if (this.key_store.length == 0 || this.trust_store.length == 0) {
+        this.$toast.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Certificates required before an SBI can be created",
+        });
+      }
+    },
     async getTransport() {
       this.sbis = [];
       this.nbis = [];
@@ -221,23 +233,20 @@ export default {
     async getKeyStore() {
       this.key_store = [];
       let result = await this.getter(
-        "/restconf/ds/ietf-datastores:running/wn-sztpd-1:keystore"
+        "/restconf/ds/ietf-datastores:running/wn-sztpd-1:keystore/asymmetric-keys"
       );
-      if (result != {}) {
-        this.key_store =
-          result["wn-sztpd-1:keystore"]["asymmetric-keys"]["asymmetric-key"];
+      if ('asymmetric-key' in result['wn-sztpd-1:asymmetric-keys']) {
+        this.key_store = result["wn-sztpd-1:asymmetric-keys"]["asymmetric-key"];
       }
     },
     async getTrustStore() {
       this.trust_store = [];
       let result = await this.getter(
-        "/restconf/ds/ietf-datastores:running/wn-sztpd-1:truststore"
+        "/restconf/ds/ietf-datastores:running/wn-sztpd-1:truststore/certificate-bags"
       );
-      if (result != {}) {
+      if ('certificate-bag' in result['wn-sztpd-1:certificate-bags']) {
         this.trust_store =
-          result["wn-sztpd-1:truststore"]["certificate-bags"][
-            "certificate-bag"
-          ];
+          result["wn-sztpd-1:certificate-bags"]["certificate-bag"];
       }
     },
     async getter(path) {
@@ -256,32 +265,8 @@ export default {
       }
     },
     async show_and_load() {
-      let trust_store = await this.getTrustStore();
-      let key_store = await this.getKeyStore();
-      if (key_store == {} || trust_store == {}) {
-        this.$confirm.require({
-          message: "Do you want to delete this record?",
-          header: "Delete Confirmation",
-          icon: "pi pi-info-circle",
-          acceptClass: "p-button-danger",
-          accept: () => {
-            this.$toast.add({
-              severity: "info",
-              summary: "Confirmed",
-              detail: "Record deleted",
-              life: 3000,
-            });
-          },
-          reject: () => {
-            this.$toast.add({
-              severity: "info",
-              summary: "Rejected",
-              detail: "You have rejected",
-              life: 3000,
-            });
-          },
-        });
-      }
+      await this.getTrustStore();
+      await this.getKeyStore();
       this.create_dialog = true;
     },
     async create_endpoint() {
@@ -315,7 +300,6 @@ export default {
           },
         ],
       };
-      console.log(body);
       let path = `${this.host}/restconf/ds/ietf-datastores:running/wn-sztpd-1:transport/listen`;
       let response = await fetch(path, {
         method: "POST",
