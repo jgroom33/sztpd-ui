@@ -15,3 +15,16 @@
     ```bash
     yarn serve
     ```
+
+# Deployment
+
+1. Install dependencies
+    ```bash
+    apt install npm
+    apt install nginx
+    npm install
+    npm build
+    cp -r dist /app
+    cp nginx.conf /etc/nginx/nginx.conf
+    systemctl restart nginx
+    ```
