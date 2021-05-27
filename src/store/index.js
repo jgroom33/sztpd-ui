@@ -13,8 +13,8 @@ export default new Vuex.Store({
     host: state => state.host,
   },
   state: {
-    username: null,
-    password: null,
+    username: "admin",
+    password: "Ciena123!",
     host: "http://localhost:8080",
   },
   mutations: {

@@ -11,12 +11,14 @@
     yarn install
     ```
 2. Change the IP address in [config](vue.config.js)
-3. Run
+3. Set the port number to the port number (usually 8080) that is assigned by yarn/npm during the serve [here](src/store/index.js)
+4. Set the username / password [here](src/store/index.js)
+5. Run
     ```bash
     yarn serve
     ```
 
-# Deployment
+## Deployment
 
 1. Install dependencies
     ```bash

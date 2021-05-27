@@ -17,10 +17,7 @@ export default {
   beforeCreate() {
     import("primevue/resources/themes/bootstrap4-light-blue/theme.css");
   },
-  created() {
-    this.$store.commit("setUsername", "admin");
-    this.$store.commit("setPassword", "adminpw!");
-  },
+  created() {},
 };
 </script>
 
